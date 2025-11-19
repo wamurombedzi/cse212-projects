@@ -22,7 +22,33 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        // create a new HashSet
+        var pairs = new HashSet<string>();
+        var notPairs = new HashSet<string>();
+
+        foreach (var word in words)
+        {
+            // reverse the characters in the word
+            var charArray = word.ToCharArray();
+            Array.Reverse(charArray);
+            var reversedWord = new string(charArray);
+
+            // checking if the reversed word is in set
+            if (notPairs.Contains(reversedWord))
+            {
+                pairs.Add($"{word} & {reversedWord}");
+            }
+            else
+            {
+                // checking for each cases
+                if (word[0] != word[1])
+                {
+                    notPairs.Add(word);
+                }
+            }
+        }
+
+        return pairs.ToArray();
     }
 
     /// <summary>
@@ -43,6 +69,21 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            // 1. I'll check if the length of the fields is greater or equals to 4
+            if (fields.Length >= 4)
+            {
+                // Trimming any extra space
+                var degree = fields[3].Trim();
+                // add the degree to the dictionary or increment the count by 1
+                if (!degrees.ContainsKey(degree))
+                {
+                    degrees[degree] = 1;
+                }
+                else
+                {
+                    degrees[degree]++;
+                }
+            }
         }
 
         return degrees;
@@ -67,7 +108,49 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // 1. Getting rid of any white spaces by using the replace method
+        // I use the REPLACE method instead of the TRIM method because unlike 
+        // The TRIM method that remove leading and trailing whitespace, REPLACE
+        // removes all spaces, including within the string
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
+        // 2. If the lengths differ, they cannot be anagrams
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+
+        // 3. A dictionary to count letter frequencies in word1
+        var letterCounts = new Dictionary<char, int>();
+
+        // 4. Count letters in word1
+        foreach (var letter in word1)
+        {
+            if (!letterCounts.ContainsKey(letter))
+            {
+                letterCounts[letter] = 1;
+            }
+            else
+            {
+                letterCounts[letter]++;
+            }
+        }
+
+        // 5. Validate letters in word2
+        foreach (var letter in word2)
+        {
+            if (!letterCounts.ContainsKey(letter) || letterCounts[letter] == 0)
+            {
+                return false;
+            }
+
+            letterCounts[letter]--;
+        }
+
+        // if all counts are zero, the words are anagrams
+        return true;
+
     }
 
     /// <summary>
@@ -101,6 +184,30 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+
+        // Prepare the list for formatted strings
+        var earthquakeSummaries = new List<string>();
+
+        // Ensure the FeatureCollection is valid and contains features
+        if (featureCollection?.Features != null)
+        {
+            foreach (var feature in featureCollection.Features)
+            {
+                // Extract magnitude and location
+                var mag = feature.Properties.Mag;
+                var place = feature.Properties.Place;
+
+                // Add a formatted string for each valid earthquake
+                if (mag.HasValue && !string.IsNullOrWhiteSpace(place))
+                {
+                    earthquakeSummaries.Add($"{place} - Mag {mag:F2}");
+                }
+            }
+        }
+
+        // Return the results as an array
+        return earthquakeSummaries.ToArray();
+
+
     }
 }
