@@ -51,7 +51,7 @@ public class Maze
     /// </summary>
     public bool IsEnd(int x, int y)
     {
-        return Data[y * Height + x] == 2;
+        return Data[y * Height + x] == 32;
     }
 
 

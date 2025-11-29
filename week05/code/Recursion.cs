@@ -1,5 +1,10 @@
 using System.Collections;
 
+// Source - https://stackoverflow.com/q
+// Posted by Jon, modified by community. See post 'Timeline' for change history
+// Retrieved 2025-11-27, License - CC BY-SA 4.0
+
+
 public static class Recursion
 {
     /// <summary>
@@ -21,9 +26,16 @@ public static class Recursion
             return 0;
         }
 
-        // Smaller problem: summing the square of n with the result of the smaller problem
-        return n * n + SumSquaresRecursive(n - 1);
+        else
+        {
+            return (n * n) + SumSquaresRecursive(n - 1);
+        }
     }
+
+
+
+
+
 
     /// <summary>
     /// #############
