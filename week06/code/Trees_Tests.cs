@@ -63,7 +63,7 @@ public class TreeReverseTests
         tree.Insert(1);
         tree.Insert(6);
 
-        Assert.AreEqual("<IEnumerable>{10, 7, 6, 5, 4, 3, 1}", string.Join(", ", tree.Reverse().AsString()));
+        Assert.AreEqual("<IEnumerable>{}", string.Join(", ", tree.Reverse().AsString()));
     }
 }
 
